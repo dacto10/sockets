@@ -2,9 +2,9 @@ import { Socket, Server } from "socket.io"
 import { UserBody, MessageBody } from "../../Utils/types";
 
 const initConnection = (server: Server) => (socket: Socket) => {
-    socket.on("start", startHandler(server, socket))
+    socket.on("start", startHandler(socket))
     socket.on("message", messageHandler(server, socket))
-    socket.on("disconnect", leftHandler(server, socket))
+    socket.on("disconnect", leftHandler(socket))
 };
 
 const messageHandler = (server: Server, socket: Socket) => (body: MessageBody) => {
@@ -15,11 +15,11 @@ const messageHandler = (server: Server, socket: Socket) => (body: MessageBody) =
     }
 }
 
-const startHandler = (_: Server, socket: Socket) => (body: UserBody) => {
+const startHandler = (socket: Socket) => (body: UserBody) => {
     socket.broadcast.emit("joined", body)
 }
 
-const leftHandler = (_: Server, socket: Socket) => () => {
+const leftHandler = (socket: Socket) => () => {
     socket.broadcast.emit("left", { id: socket.id })
 }
 

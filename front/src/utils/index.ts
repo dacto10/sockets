@@ -1,2 +1,2 @@
-export { functions } from "./functions"
-export type { example } from "./types"
+export * from "./functions"
+export * from "./types"

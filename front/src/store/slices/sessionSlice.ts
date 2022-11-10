@@ -1,5 +1,5 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-import { User } from "../../utils/types";
+import { User } from "../../utils";
 import { RootState } from "../store";
 
 const initialState: User = {
@@ -14,7 +14,6 @@ export const sessionSlice = createSlice({
         setUser: (state, action: PayloadAction<User>) => {
             state = { ...state, ...action.payload };
         },
-
     }
 });
 

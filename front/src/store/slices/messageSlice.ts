@@ -1,5 +1,5 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-import { Message, Messages, PrivateConversation, User } from "../../utils/types";
+import { Message, Messages, PrivateConversation, User } from "../../utils";
 import { RootState } from "../store";
 
 const initialState: Messages = {
@@ -14,6 +14,9 @@ export const messageSlice = createSlice({
         addPrivate: (state, action: PayloadAction<User>) => {
             state = { ...state, privates: [...state.privates, { with: action.payload, messages: [] }] }
         },
+        removePrivate: (state, action: PayloadAction<PrivateConversation[]>) => {
+            state = { ...state,  }
+        },
         addPrivateMessage: (state, action: PayloadAction<PrivateConversation[]>) => {
             state = { ...state, privates: [...action.payload] }
         },
@@ -23,7 +26,7 @@ export const messageSlice = createSlice({
     }
 })
 
-export const { addPrivate, addPrivateMessage, addMessage } = messageSlice.actions;
+export const { addPrivate, removePrivate, addPrivateMessage, addMessage } = messageSlice.actions;
 
 export const selectMessage = (state: RootState) => state.message;
 
