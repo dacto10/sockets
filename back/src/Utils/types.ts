@@ -1,9 +1,9 @@
-export interface MessageBody {
+export interface Message {
     to?: string;
     content: string;
 }
 
-export interface UserBody {
+export interface User {
     id: string;
     username: string;
 }

@@ -11,8 +11,8 @@ export const messageSlice = createSlice({
     name: "messages",
     initialState,
     reducers: {
-        addPrivate: (state, action: PayloadAction<User>) => {
-            state = { ...state, privates: [...state.privates, { with: action.payload, messages: [] }] }
+        addPrivate: (state, action: PayloadAction<User[]>) => {
+            state = { ...state, privates: [...state.privates, ...action.payload.map(el => ({ with: el, messages: [] }))] }
         },
         removePrivate: (state, action: PayloadAction<PrivateConversation[]>) => {
             state = { ...state,  }

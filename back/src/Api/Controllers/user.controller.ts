@@ -1,5 +1,6 @@
 import { Socket, Server } from "socket.io"
-import { UserBody, MessageBody } from "../../Utils/types";
+import { connectedUsers } from "../../Data";
+import { User, Message } from "../../Utils/types";
 
 const initConnection = (server: Server) => (socket: Socket) => {
     socket.on("start", startHandler(socket))
@@ -7,7 +8,7 @@ const initConnection = (server: Server) => (socket: Socket) => {
     socket.on("disconnect", leftHandler(socket))
 };
 
-const messageHandler = (server: Server, socket: Socket) => (body: MessageBody) => {
+const messageHandler = (server: Server, socket: Socket) => (body: Message) => {
     if (body.to) {
         server.to(body.to).emit("private", { content: body.content, from: socket.id })
     } else {
@@ -15,16 +16,19 @@ const messageHandler = (server: Server, socket: Socket) => (body: MessageBody) =
     }
 }
 
-const startHandler = (socket: Socket) => (body: UserBody) => {
-    socket.broadcast.emit("joined", body)
+const startHandler = (socket: Socket) => (body: User) => {
+    connectedUsers.push(body);
+    socket.broadcast.emit("joined", connectedUsers);
 }
 
 const leftHandler = (socket: Socket) => () => {
-    socket.broadcast.emit("left", { id: socket.id })
+    const index = connectedUsers.findIndex(user => user.id !== socket.id);
+    connectedUsers.splice(index, 1);
+    socket.broadcast.emit("left", { id: socket.id });
 }
 
 const UserController = {
-    initConnection,
+    initConnection
 };
 
 export {

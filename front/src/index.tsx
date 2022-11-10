@@ -15,7 +15,7 @@ import { theme } from "./theme/index"
 
 const container = document.getElementById('root')!;
 const root = createRoot(container);
-export const socket = io();
+export const socket = io("http://localhost:3000");
 configureSocket(socket);
 
 root.render(
