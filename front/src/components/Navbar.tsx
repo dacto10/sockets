@@ -2,12 +2,15 @@ import { AppBar, Box, IconButton, Toolbar, Typography } from "@mui/material";
 import ForumIcon from '@mui/icons-material/Forum';
 import { Link, useNavigate } from "react-router-dom";
 import LogoutIcon from '@mui/icons-material/Logout';
+import { removeUserAction } from "../store/actions/session";
 
 const Navbar: React.FC = () => {
   const navigate = useNavigate();
 
   const logout = () => {
+    removeUserAction();
     navigate('/login');
+    window.location.reload();
   }
 
   return (

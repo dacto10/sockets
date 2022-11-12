@@ -1,30 +1,30 @@
 import { Socket, Server } from "socket.io"
 import { connectedUsers } from "../../Data";
-import { User, Message } from "../../Utils/types";
+import { IUser as IUser, IMessage } from "../../Utils/types";
 
 const initConnection = (server: Server) => (socket: Socket) => {
-    socket.on("start", startHandler(socket))
+    socket.on("start", startHandler(server))
     socket.on("message", messageHandler(server, socket))
-    socket.on("disconnect", leftHandler(socket))
+    socket.on("disconnect", leftHandler(server, socket))
 };
 
-const messageHandler = (server: Server, socket: Socket) => (body: Message) => {
+const messageHandler = (server: Server, socket: Socket) => (body: IMessage) => {    
     if (body.to) {
-        server.to(body.to).emit("private", { content: body.content, from: socket.id })
+        server.to(body.to.id).emit("private", { content: body.content, from: connectedUsers.find(el => el.id === socket.id) })
     } else {
-        socket.broadcast.emit("message", { content: body.content, from: socket.id})
+        socket.broadcast.emit("message", { content: body.content, from: connectedUsers.find(el => el.id === socket.id) })
     }
 }
 
-const startHandler = (socket: Socket) => (body: User) => {
+const startHandler = (server: Server) => (body: IUser) => {
     connectedUsers.push(body);
-    socket.broadcast.emit("joined", connectedUsers);
+    server.emit("joined", connectedUsers);
 }
 
-const leftHandler = (socket: Socket) => () => {
-    const index = connectedUsers.findIndex(user => user.id !== socket.id);
-    connectedUsers.splice(index, 1);
-    socket.broadcast.emit("left", { id: socket.id });
+const leftHandler = (server: Server, socket: Socket) => () => {
+    const index = connectedUsers.findIndex(user => user.id === socket.id);
+    connectedUsers.splice(index, 1);    
+    server.emit("left", { id: socket.id });
 }
 
 const UserController = {

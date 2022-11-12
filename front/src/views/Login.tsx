@@ -1,14 +1,29 @@
 import { Button, Grid, Paper, TextField, Typography } from "@mui/material";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import ForumIcon from '@mui/icons-material/Forum';
+import { setUserAction } from "../store/actions/session";
+import { IUser } from "../utils";
+import { socket } from "..";
+import { useAppSelector } from "../store/hooks";
 
 const Login: React.FC = () => {
     const [inputValue, setInputValue] = useState<string>('');
     const [error, setError] = useState<boolean>(false);
     const navigate = useNavigate();
+    const session = useAppSelector(state => state.session);
+
+    useEffect(() => {
+        if (session.id !== "") navigate("/");
+    }, [session.id, navigate])
 
     const login = () => {
+        const user: IUser = {
+            username: inputValue,
+            id: socket.id,
+            isActive: true
+        }
+        setUserAction(user);
         
         navigate('/');
     }
@@ -20,7 +35,7 @@ const Login: React.FC = () => {
 
     return (
         <>
-            <Paper sx={loginStyles} elevation={3} component={"form"} onSubmit={login} onInvalid={ setRequiredValueAlert}>
+            <Paper sx={loginStyles} elevation={3} component={"form"} onSubmit={login} onInvalid={ setRequiredValueAlert }>
                 <Grid container direction={"column"} sx={containerStyles}>
                     <Grid item>
                         <ForumIcon color="primary" sx={ iconStyles } />

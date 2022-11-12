@@ -3,10 +3,11 @@ import { Grid, Paper, Typography } from "@mui/material";
 interface Props {
     type: 'own' | 'other' | 'info';
     content: string;
+    sender: string;
 }
 
 const Message: React.FC<Props> = (props: Props) => {
-    const { type, content } = props;
+    const { type, content, sender } = props;
     return (
         <>
             {
@@ -24,16 +25,22 @@ const Message: React.FC<Props> = (props: Props) => {
                     </Grid>
                 ) : (
                     <Grid container direction={type === 'own' ? "row-reverse" : "row"}>
-                        <Grid item xs={6} sx={ { ...chatContainerStyles, justifyContent: type === 'own' ? "flex-end" : "flex-start" } }>
-                            <Paper sx={ type === 'own' ? chatOwnStyles : chatOtherStyles }>
-                                <Typography fontSize={"14px"}>
+                        <Grid item sx={ { ...chatContainerStyles, justifyContent: type === 'own' ? "flex-end" : "flex-start" } }>
+                            <Paper elevation={3} sx={ type === 'own' ? chatOwnStyles : chatOtherStyles }>
+                                {
+                                    type !== 'own' ? (
+                                        <Typography fontSize={"10px"} fontWeight={'600'}>
+                                            { sender }
+                                        </Typography>
+                                    ) : ''
+                                }
+                                <Typography fontSize={"15px"}>
                                     { 
                                         content
                                     }
                                 </Typography>
                             </Paper>
                         </Grid>
-                        <Grid item xs={6}></Grid>
                     </Grid>
                 )
             }
@@ -58,10 +65,11 @@ const chatContainerStyles = {
 
 const chatOwnStyles = {
     p: 1,
-    borderRadius: 4
+    borderRadius: 4,
+    minWidth: 25,
 }
 
 const chatOtherStyles = {
     ...chatOwnStyles,
-    background: "#E8F0FE"
+    background: "#ADC2DE",
 }

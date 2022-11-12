@@ -13,7 +13,10 @@ export const sessionSlice = createSlice({
     initialState,
     reducers: {
         setUser: (state, action: PayloadAction<IUser>) => {
-            state = { ...state, ...action.payload };
+            const { id, username, isActive } = action.payload;
+            state.id = id;
+            state.username = username;
+            state.isActive = isActive;
         },
     }
 });

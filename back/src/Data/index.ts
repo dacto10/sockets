@@ -1,3 +1,3 @@
-import { User } from "../Utils/types";
+import { IUser } from "../Utils/types";
 
-export const connectedUsers: User[] = [];
+export const connectedUsers: IUser[] = [];

@@ -1,2 +1,2 @@
-export { configRoutes } from "./Routes";
+export * from "./Sockets";
 

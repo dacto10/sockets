@@ -1,1 +1,13 @@
 // Do not use this file without a justified reason
+
+//override mui input style for chat input
+.override {
+    border: 0 !important;
+    fieldset {
+        border: 0 !important;
+    }
+    input {
+        background-color: white;
+        border-radius: 20px;
+    }
+}

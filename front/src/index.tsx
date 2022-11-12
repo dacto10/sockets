@@ -15,9 +15,6 @@ const root = createRoot(container);
 export const socket = io("http://localhost:3000");
 configureSocket(socket);
 
-console.log(socket);
-
-
 root.render(
   <Router>
     <React.StrictMode>

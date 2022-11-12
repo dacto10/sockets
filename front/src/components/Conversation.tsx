@@ -1,89 +1,44 @@
 import { Box, Grid, Paper, Typography } from "@mui/material"
+import { useEffect, useState } from "react";
+import { useLocation } from "react-router-dom";
+import { useAppSelector } from "../store/hooks";
 import { IMessage } from "../utils";
 import Message from "./Message";
 
 interface Props {
     messages: IMessage[];
-    with?: string;
 }
 
 const Conversation: React.FC<Props> = (props: Props) => {
     const { messages } = props;
-    const fakeMessages = [{
-        from: "user1",
-        message: "Hola manito"
-    },
-    {
-        from: "",
-        message: "Hola manitoo"
-    },
-    {
-        from: "user2",
-        message: "Hola manito"
-    },
-    {
-        from: "user1",
-        message: "Hola manito"
-    },
-    {
-        from: "",
-        message: "Hola manitoo"
-    },
-    {
-        from: "user2",
-        message: "Hola manito"
-    },
-    {
-        from: "user1",
-        message: "Hola manito"
-    },
-    {
-        from: "",
-        message: "Hola manitoo"
-    },
-    {
-        from: "user2",
-        message: "Hola manito"
-    },
-    {
-        from: "user1",
-        message: "Hola manito"
-    },
-    {
-        from: "",
-        message: "Hola manitoo"
-    },
-    {
-        from: "user2",
-        message: "Hola manito"
-    },
-    {
-        from: "user1",
-        message: "Hola manito"
-    },
-    {
-        from: "",
-        message: "Hola manitoo"
-    },
-    {
-        from: "user2",
-        message: "Hola manito buenas tardes hiansadas da asdasd asd asda sdas dasf asdgasgasdageaegfasdagesa adsafawgaeasfgeafsafeafsafeafasf agw sdasdasdasdfa s das dasd asda gfsdsa"
-    }]
+    const { id } = useAppSelector(state => state.session);
+    const location = useLocation();
+    const [user, setUser] = useState("");
+    const privates = useAppSelector(state => state.message.privates);
+    
+    useEffect(() => {
+        if (location.pathname !== '/') {
+            setUser(privates.find(msg => msg.with.id === location.pathname.slice(1))?.with.username || "");
+        } else {
+            setUser("");
+        }
+    }, [location.pathname, privates])
+
     return (
         <>
             <Box sx={ chatContainerStyles }>
                 <Paper sx={ chatInfoStyles }>
                     <Typography fontSize={"13px"}>
                         { 
-                            props.with  ? `Conversation with ${props.with}` : "General chat"
+                            user !== ""  ? `Conversation with ${user}` : "General chat"
                         }
                     </Typography>
                 </Paper>
-                <Grid container spacing={1} direction={"column"} sx={ { marginBottom: 1 } }>
+                <Grid container spacing={1} direction={"column"} sx={ { marginBottom: 0.5 } }>
                 {
-                    fakeMessages.map((message, index) => {
-                        const type = message.from === "" ? "info" : message.from === "user1" ? "own" : "other";
-                        return <Grid item><Message type={type} content={message.message} key={index}></Message></Grid>
+                    messages.map((message, index) => {
+                        const type = message.from.username === "" ? "info" : message.from.id === id ? "own" : "other";
+                        return <Grid item key={index}><Message type={type} content={message.message} sender={message.from.username}></Message></Grid>
                     })
                 }
                 </Grid>

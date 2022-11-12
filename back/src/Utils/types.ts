@@ -1,9 +1,9 @@
-export interface Message {
-    to?: string;
+export interface IMessage {
+    to?: IUser;
     content: string;
 }
 
-export interface User {
+export interface IUser {
     id: string;
     username: string;
     isActive: boolean;

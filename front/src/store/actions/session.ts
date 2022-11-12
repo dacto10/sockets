@@ -12,7 +12,7 @@ export const setUserAction = (user: IUser) => {
 
 export const removeUserAction = () => {
     const dispatch = store.dispatch;
-    socket.emit("disconnect");
+    socket.disconnect();
 
     dispatch(setUser({ id: "", username: "", isActive: false }));
 }

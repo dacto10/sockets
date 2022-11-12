@@ -5,7 +5,7 @@ export interface IUser {
 }
 
 export interface IMessage {
-    from?: IUser;
+    from: IUser;
     message: string
 }
 

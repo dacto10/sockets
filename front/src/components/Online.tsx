@@ -1,17 +1,26 @@
 import { Grid, Typography } from "@mui/material"
-import { Link } from "react-router-dom"
+import { Link, useLocation } from "react-router-dom"
 import CircleIcon from '@mui/icons-material/Circle';
 import { IUser } from "../utils";
+import { useEffect, useState } from "react";
 
 interface Props {
     user: IUser
 }
 
 const Online: React.FC<Props> = (props: Props) => {
-    const { user: { username, isActive} } = props;
+    const { user: { id, username, isActive} } = props;
+    const location = useLocation();
+    const [selected, setSelected] = useState(false);
+    
+    useEffect(() => {
+        if (location.pathname.slice(1) === id) setSelected(true);
+        else setSelected(false);
+    }, [location.pathname, id])
+
     return (
-        <Grid item sx={ itemContainerStyles }>
-            <Link to={`/${username}`}>
+        <Grid item sx={ { ...itemContainerStyles, ...(selected ? { background: '#ADC2DE' } : {}) } }>
+            <Link to={`/${id}`}>
                 <Grid container columnSpacing={6}>
                     <Grid item xs={2} sx={ itemStyles }>
                         <CircleIcon color={isActive ? 'success' : 'error'} />
@@ -34,9 +43,9 @@ const itemContainerStyles = {
     pb: 2,
     color: 'gray',
     ':hover': {
-        background: '#E8F0FE'
+        background: '#ADC2DE'
     },
-    borderBottom: '1px solid #E8F0FE'
+    borderBottom: '1px solid #ADC2DE'
 }
 
 const itemStyles = {
