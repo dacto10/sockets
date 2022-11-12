@@ -1,17 +1,18 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-import { User } from "../../utils";
+import { IUser } from "../../utils";
 import { RootState } from "../store";
 
-const initialState: User = {
+const initialState: IUser = {
     id: "",
-    username: ""
+    username: "",
+    isActive: false
 }
 
 export const sessionSlice = createSlice({
     name: "session",
     initialState,
     reducers: {
-        setUser: (state, action: PayloadAction<User>) => {
+        setUser: (state, action: PayloadAction<IUser>) => {
             state = { ...state, ...action.payload };
         },
     }

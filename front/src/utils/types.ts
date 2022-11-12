@@ -1,24 +1,20 @@
-export interface User {
+export interface IUser {
     id: string;
     username: string;
+    isActive: boolean;
 }
 
-export interface User {
-    id: string;
-    username: string;
-}
-
-export interface Message {
-    from: User;
+export interface IMessage {
+    from?: IUser;
     message: string
 }
 
-export interface PrivateConversation {
-    with: User;
-    messages: Message[]
+export interface IPrivateConversation {
+    with: IUser;
+    messages: IMessage[]
 }
 
 export interface Messages {
-    general: Message[];
-    privates: PrivateConversation[]
+    general: IMessage[];
+    privates: IPrivateConversation[]
 }

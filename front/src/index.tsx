@@ -1,7 +1,3 @@
-import '@fontsource/roboto/300.css';
-import '@fontsource/roboto/400.css';
-import '@fontsource/roboto/500.css';
-import '@fontsource/roboto/700.css';
 import React from 'react';
 import { createRoot } from 'react-dom/client';
 import { Provider } from 'react-redux';
@@ -12,11 +8,15 @@ import App from './views/App';
 import { BrowserRouter as Router } from 'react-router-dom';
 import { ThemeProvider } from '@mui/material';
 import { theme } from "./theme/index"
+import './assets/scss/index.scss';
 
 const container = document.getElementById('root')!;
 const root = createRoot(container);
 export const socket = io("http://localhost:3000");
 configureSocket(socket);
+
+console.log(socket);
+
 
 root.render(
   <Router>

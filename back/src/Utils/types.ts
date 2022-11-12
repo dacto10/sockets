@@ -6,4 +6,5 @@ export interface Message {
 export interface User {
     id: string;
     username: string;
+    isActive: boolean;
 }
