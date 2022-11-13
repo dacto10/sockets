@@ -12,7 +12,7 @@ import './assets/scss/index.scss';
 
 const container = document.getElementById('root')!;
 const root = createRoot(container);
-export const socket = io("http://localhost:3000");
+export const socket = io("http://localhost:5000");
 configureSocket(socket);
 
 root.render(
