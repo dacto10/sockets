@@ -37,7 +37,9 @@ const containerStyle = {
   m: 0,
   height: 'calc(100vh - 64px)',
   backgroundImage: `url(${background})`,
-  position: 'relative'
+  backgroundSize: 'cover',
+  position: 'relative',
+  maxWidth: '100% !important',
 }
 
 const navbarContainerStyle = {
