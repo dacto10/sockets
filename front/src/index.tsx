@@ -9,6 +9,7 @@ import { BrowserRouter as Router } from 'react-router-dom';
 import { ThemeProvider } from '@mui/material';
 import { theme } from "./theme/index"
 import './assets/scss/index.scss';
+import * as serviceWorkerRegistration from './serviceWorkerRegistration';
 
 const container = document.getElementById('root')!;
 const root = createRoot(container);
@@ -26,3 +27,5 @@ root.render(
     </React.StrictMode>
   </Router>
 );
+
+serviceWorkerRegistration.register();
