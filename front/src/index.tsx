@@ -16,6 +16,29 @@ const root = createRoot(container);
 export const socket = io("http://localhost:5000");
 configureSocket(socket);
 
+const isPwa = window.matchMedia('(display-mode: standalone)').matches;
+
+serviceWorkerRegistration.register({
+  onSuccess: async (registration: ServiceWorkerRegistration) => {
+    if (!isPwa) {
+      await Notification.requestPermission();
+      if (Notification.permission === "granted") {
+        registration.showNotification("Instalame o te cago a piñas", {
+          icon: "https://www.clipartmax.com/png/full/207-2074210_chat-message-mobile-phone-sms-text-texting-icon-texting-icon-png.png"
+        }) 
+      }
+    }
+  },
+  onUpdate: async (registration: ServiceWorkerRegistration) => {
+    await Notification.requestPermission();
+    if (Notification.permission === "granted") {
+      registration.showNotification("Actualizame o vamos a tener pedos hdp", {
+        icon: "https://www.clipartmax.com/png/full/207-2074210_chat-message-mobile-phone-sms-text-texting-icon-texting-icon-png.png"
+      })
+    }
+  }
+});
+
 root.render(
   <Router>
     <React.StrictMode>
@@ -28,4 +51,3 @@ root.render(
   </Router>
 );
 
-serviceWorkerRegistration.register();
